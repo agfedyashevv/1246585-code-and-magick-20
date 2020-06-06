@@ -1,6 +1,6 @@
 'use strict';
 
-var numberСycles = 4;
+var NUMBER_СYCLES = 4;
 
 var userDialog = document.querySelector('.setup');
 
@@ -64,7 +64,7 @@ var getWizardName = function () {
 
 var generateWizards = function () {
   var wizards = [];
-  for (var i = 0; i < numberСycles; i++) {
+  for (var i = 0; i < NUMBER_СYCLES; i++) {
     wizards.push({
       name: getWizardName(),
       coatColor: getWizardCoatColor(),
