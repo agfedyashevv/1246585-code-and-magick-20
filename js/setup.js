@@ -1,15 +1,14 @@
 'use strict';
 
+var numberСycles = 4;
+
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 
 var similarListElement = userDialog.querySelector('.setup-similar-list');
 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
   .content
   .querySelector('.setup-similar-item');
-
-var wizards = {};
 
 var wizardNames = [
   'Иван',
@@ -63,6 +62,18 @@ var getWizardName = function () {
   return name;
 };
 
+var generateWizards = function () {
+  var wizards = [];
+  for (var i = 0; i < numberСycles; i++) {
+    wizards.push({
+      name: getWizardName(),
+      coatColor: getWizardCoatColor(),
+      eyesColor: getWizardEyesColor()
+    });
+  }
+  return wizards;
+};
+
 var getWizardCoatColor = function () {
   var coatColor = wizardCoatColors[getRandomArrayIndex(wizardCoatColors)];
   return coatColor;
@@ -73,23 +84,28 @@ var getWizardEyesColor = function () {
   return eyesColor;
 };
 
-var renderWizard = function () {
+var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = getWizardName();
-  wizardElement.querySelector('.wizard-coat').style.fill = getWizardCoatColor();
-  wizardElement.querySelector('.wizard-eyes').style.fill = getWizardEyesColor();
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
   return wizardElement;
 };
 
 var showRandomWizards = function () {
+  var wizards = generateWizards();
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < wizards.length; i++) {
     fragment.appendChild(renderWizard(wizards[i]));
   }
   return similarListElement.appendChild(fragment);
 };
 
-showRandomWizards();
+var init = function () {
+  showRandomWizards();
+  userDialog.classList.remove('hidden');
+  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+};
 
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+init();
